@@ -1,12 +1,39 @@
 package samumene.todolist.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import samumene.todolist.dto.request.UsuarioLoginRequest;
+import samumene.todolist.dto.request.UsuarioRegisterRequest;
+import samumene.todolist.entity.Usuario;
+import samumene.todolist.service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
+    private final UsuarioService usuarioService;
 
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> findById(@PathVariable Long id) {
+        Usuario usuario = this.usuarioService.findById(id);
+        return ResponseEntity.ok(usuario);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Void> register(@RequestBody @Valid UsuarioRegisterRequest request) {
+        this.usuarioService.register(request);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody @Valid UsuarioLoginRequest request) {
+        String token = this.usuarioService.login(request);
+        return new ResponseEntity<>(token, HttpStatus.OK);
+    }
 }
