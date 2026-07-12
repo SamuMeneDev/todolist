@@ -16,22 +16,40 @@ classDiagram
         - senha: String
         - tarefas: Tarefa[]
         - categorias: Categoria[]
+        
     }
+    Usuario *-- Tarefa
+    Usuario *-- Categoria
+    Usuario -- UsuarioRoles
+    
     class Tarefa {
         - id: Long
         - titulo: String
         - descricao: String
+        - categoria: Categoria
         - dataInicio: LocalDateTime
         - dataFim: LocalDateTime
         - status: StatusTarefa
+        - usuario: Usuario
      }
+    Tarefa o-- Categoria
+    Tarefa -- StatusTarefa
+     
      class Categoria {
          - id: Long
          - titulo: String
          - descricao: String
          - status: StatusCategoria
+         - usuario: Usuario
+         - tarefas: Tarefa[]
      }
-    class StatusTarefa {
+    Categoria -- StatusCategoria
+    
+     class UsuarioRoles {
+         <<enumeration>>
+         USUARIO
+     }
+     class StatusTarefa {
         <<enumeration>>
         PENDENTE
         CONCLUIDA
@@ -43,9 +61,4 @@ classDiagram
         DESATIVA
         EXCLUIDA
      }
-
-    Tarefa*--Usuario
-    Categoria*--Usuario
-    StatusCategoria -- Categoria
-    StatusTarefa -- Tarefa
 ```
