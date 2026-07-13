@@ -37,7 +37,9 @@ public class UsuarioService implements UserDetailsService {
     }
 
     public UsuarioResponse findById(Long id) {
-        return this.usuarioMapper.toDTO(this.usuarioRepository.findById(id).orElseThrow(NoSuchElementException::new));
+        Usuario usuario = this.usuarioRepository.findById(id)
+                .orElseThrow(NoSuchElementException::new);
+        return this.usuarioMapper.toDTO(usuario);
     }
 
     public void register(UsuarioRegisterRequest request) {
