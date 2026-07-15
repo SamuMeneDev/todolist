@@ -9,6 +9,7 @@ import samumene.todolist.entity.Usuario;
 import samumene.todolist.enumeration.StatusCategoria;
 import samumene.todolist.enumeration.StatusTarefa;
 import samumene.todolist.mapper.TarefaMapper;
+import samumene.todolist.queryfilter.TarefaQueryFilter;
 import samumene.todolist.repository.CategoriaRepository;
 import samumene.todolist.repository.TarefaRepository;
 
@@ -49,8 +50,10 @@ public class TarefaService implements InnerResourceValidation<Usuario, Tarefa> {
         this.tarefaRepository.save(tarefa);
     }
 
-    public List<TarefaResponse> findAll(Usuario usuario) {
-        return this.tarefaMapper.toDTOList(this.tarefaRepository.findAllByUsuario(usuario));
+    public List<TarefaResponse> findAll(Usuario usuario, TarefaQueryFilter queryFilter) {
+        // Passando o usuario para a specification
+        queryFilter.setUsuario(usuario);
+        return this.tarefaMapper.toDTOList(this.tarefaRepository.findAll(queryFilter.getSpecification()));
     }
 
     public void toggleTarefa(Long idTarefa, Usuario usuario) {

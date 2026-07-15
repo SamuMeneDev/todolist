@@ -1,11 +1,7 @@
 package samumene.todolist.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import samumene.todolist.entity.Tarefa;
-import samumene.todolist.entity.Usuario;
 
-import java.util.List;
-
-public interface TarefaRepository extends JpaRepository<Tarefa, Long> {
-    List<Tarefa> findAllByUsuario(Usuario usuario);
-}
+public interface TarefaRepository extends JpaRepository<Tarefa, Long>, JpaSpecificationExecutor<Tarefa> {}

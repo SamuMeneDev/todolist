@@ -38,13 +38,14 @@ public class CategoriaService implements InnerResourceValidation<Usuario, Catego
     }
 
     public List<CategoriaResponse> findAll(Usuario usuario, CategoriaQueryFilter queryFilter) {
+        queryFilter.setUsuario(usuario);
         return this.categoriaMapper
-            .toDTOList(this.categoriaRepository.findAllByUsuario(usuario, queryFilter.getSpecification()));
+            .toDTOList(this.categoriaRepository.findAll(queryFilter.getSpecification()));
     }
 
     public void changeStatus(Long idCategoria, CategoriaChangeStatusRequest request, Usuario usuario) {
         Categoria categoria = this.categoriaRepository.findById(idCategoria)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(()->new NoSuchElementException("Categoria não encontrada"));
 
         // Tentando mudar categoria de outro usuário
         this.validateInnerResource(usuario, categoria);
