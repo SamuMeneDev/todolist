@@ -53,12 +53,10 @@ classDiagram
         <<enumeration>>
         PENDENTE
         CONCLUIDA
-        EXCLUIDA
      }
     class StatusCategoria {
         <<enumeration>>
         ATIVA
         DESATIVA
-        EXCLUIDA
      }
 ```
