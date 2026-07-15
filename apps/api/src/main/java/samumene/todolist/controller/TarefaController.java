@@ -9,6 +9,7 @@ import samumene.todolist.dto.request.tarefa.TarefaEditRequest;
 import samumene.todolist.dto.request.tarefa.TarefaSaveRequest;
 import samumene.todolist.dto.response.TarefaResponse;
 import samumene.todolist.entity.Usuario;
+import samumene.todolist.queryfilter.TarefaQueryFilter;
 import samumene.todolist.service.TarefaService;
 
 import java.util.List;
@@ -44,9 +45,10 @@ public class TarefaController {
      */
     @GetMapping("/findAll")
     public ResponseEntity<List<TarefaResponse>> findAll(
-            @AuthenticationPrincipal Usuario usuario
+            @AuthenticationPrincipal Usuario usuario,
+            TarefaQueryFilter queryFilter
     ) {
-        var lista = this.tarefaService.findAll(usuario);
+        var lista = this.tarefaService.findAll(usuario, queryFilter);
         return ResponseEntity.ok(lista);
     }
 
