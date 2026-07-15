@@ -36,7 +36,7 @@ public class UsuarioController {
      * @param request Objeto de requisição.
      */
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody @Valid UsuarioRegisterRequest request) {
+    public ResponseEntity<Void> register(@Valid @RequestBody UsuarioRegisterRequest request) {
         this.usuarioService.register(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

@@ -56,7 +56,7 @@ public class CategoriaService implements InnerResourceValidation<Usuario, Catego
 
     public void edit(Long idCategoria, CategoriaEditRequest request, Usuario usuario) {
         Categoria categoria = this.categoriaRepository.findByIdAndStatus(idCategoria, StatusCategoria.ATIVA)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(()->new NoSuchElementException("Categoria não encontrada"));
 
         // Tentando mudar tarefa de outro usuário
         this.validateInnerResource(usuario, categoria);
@@ -69,7 +69,7 @@ public class CategoriaService implements InnerResourceValidation<Usuario, Catego
 
     public void deleteById(Long id, Usuario usuario) {
         Categoria categoria = this.categoriaRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(()-> new NoSuchElementException("Categoria não encontrada"));
 
         // Tentando deletar categoria de outros usuário
         this.validateInnerResource(usuario, categoria);
@@ -80,7 +80,7 @@ public class CategoriaService implements InnerResourceValidation<Usuario, Catego
     @Override
     public void validateInnerResource(Usuario entity, Categoria resource) {
         if(!resource.getUsuario().getId().equals(entity.getId())) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Ação não permitida");
         }
     }
 }
