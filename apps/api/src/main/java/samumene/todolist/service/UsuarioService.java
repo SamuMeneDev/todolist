@@ -44,7 +44,7 @@ public class UsuarioService implements UserDetailsService {
 
     public void register(UsuarioRegisterRequest request) {
         if(this.usuarioRepository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Um usuário com esse email ja foi cadastrado");
         }
         var usuario = new Usuario();
         usuario.setEmail(request.email());
@@ -67,6 +67,6 @@ public class UsuarioService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return this.usuarioRepository.findByEmail(username).orElseThrow(NoSuchElementException::new);
+        return this.usuarioRepository.findByEmail(username).orElseThrow(()->new NoSuchElementException("Usuário não encontrado"));
     }
 }

@@ -1,5 +1,6 @@
 package samumene.todolist.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.security.autoconfigure.web.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,15 +15,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import samumene.todolist.security.SecurityFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
     private final SecurityFilter securityFilter;
+    private final HandlerExceptionResolver resolver;
 
-    public SecurityConfig(SecurityFilter securityFilter) {
+    public SecurityConfig(SecurityFilter securityFilter, @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
         this.securityFilter = securityFilter;
+        this.resolver = resolver;
     }
 
     @Bean
@@ -42,6 +46,11 @@ public class SecurityConfig {
                 )
                 .headers(headers -> headers
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) ->
+                                resolver.resolveException(request, response, null, authException)
+                        )
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
