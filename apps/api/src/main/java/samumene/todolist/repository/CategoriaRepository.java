@@ -11,6 +11,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CategoriaRepository extends JpaRepository<Categoria, Long>, JpaSpecificationExecutor<Categoria> {
-    List<Categoria> findAllByUsuario(Usuario usuario, Specification<Categoria> spec);
     Optional<Categoria> findByIdAndStatus(Long id, StatusCategoria status);
 }

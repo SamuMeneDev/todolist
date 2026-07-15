@@ -22,7 +22,7 @@ public class TarefaSpec {
             if(ObjectUtils.isEmpty(categoria)) {
                 return null;
             } else {
-                return criteriaBuilder.equal(root.join("categoria").get("titulo"), categoria);
+                return criteriaBuilder.like(root.join("categoria").get("titulo"), categoria + "%");
             }
         };
     }
@@ -32,7 +32,7 @@ public class TarefaSpec {
             if(ObjectUtils.isEmpty(status)) {
                 return null;
             } else {
-                return criteriaBuilder.equal(root.join("status"), StatusTarefa.valueOf(status));
+                return criteriaBuilder.equal(root.get("status"), StatusTarefa.valueOf(status));
             }
         };
     }
@@ -47,12 +47,35 @@ public class TarefaSpec {
         };
     }
 
+    public static Specification<Tarefa> dataInicioEnds(LocalDateTime dataInicio) {
+        return (root, query, criteriaBuilder) -> {
+            if(ObjectUtils.isEmpty(dataInicio)) {
+                return null;
+            } else {
+                return criteriaBuilder.lessThanOrEqualTo(root.get("dataInicio"), dataInicio);
+            }
+        };
+    }
+
+
+    public static Specification<Tarefa> dataFimStarts(LocalDateTime dataFim) {
+        return (root, query, criteriaBuilder) -> {
+            if(ObjectUtils.isEmpty(dataFim)) {
+                return null;
+            } else {
+                return criteriaBuilder.and(criteriaBuilder.greaterThan(root.get("dataFim"), dataFim),
+                    criteriaBuilder.isNotNull(root.get("dataFim")));
+            }
+        };
+    }
+
     public static Specification<Tarefa> dataFimEnds(LocalDateTime dataFim) {
         return (root, query, criteriaBuilder) -> {
             if(ObjectUtils.isEmpty(dataFim)) {
                 return null;
             } else {
-                return criteriaBuilder.lessThanOrEqualTo(root.get("dataFim"), dataFim);
+                return criteriaBuilder.and(criteriaBuilder.isNotNull(root.get("dataFim")),
+                        criteriaBuilder.lessThanOrEqualTo(root.get("dataFim"), dataFim));
             }
         };
     }

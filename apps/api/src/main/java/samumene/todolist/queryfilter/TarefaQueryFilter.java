@@ -16,9 +16,13 @@ public class TarefaQueryFilter {
     private String categoria;
     private String status;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime dataInicio;
+    private LocalDateTime dataInicioStart;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime dataFim;
+    private LocalDateTime dataInicioEnds;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime dataFimStart;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime dataFimEnds;
     private Usuario usuario;
 
 
@@ -27,7 +31,10 @@ public class TarefaQueryFilter {
         return usuarioEquals(usuario)
             .and(categoriaEquals(categoria))
             .and(statusEquals(status))
-            .and(dataInicioStarts(dataInicio))
-            .and(dataFimEnds(dataFim));
+            .and(dataInicioStarts(dataInicioStart))
+            .and(dataInicioEnds(dataInicioEnds))
+            .and(dataFimStarts(dataFimStart))
+            .and(dataFimEnds(dataFimEnds));
+
     }
 }
