@@ -9,6 +9,7 @@ import samumene.todolist.entity.Usuario;
 import samumene.todolist.enumeration.StatusCategoria;
 import samumene.todolist.enumeration.StatusTarefa;
 import samumene.todolist.mapper.TarefaMapper;
+import samumene.todolist.queryfilter.TarefaQueryFilter;
 import samumene.todolist.repository.CategoriaRepository;
 import samumene.todolist.repository.TarefaRepository;
 
@@ -40,7 +41,7 @@ public class TarefaService implements InnerResourceValidation<Usuario, Tarefa> {
         if(!Objects.isNull(request.categoriaId())) {
             tarefa.setCategoria(this.categoriaRepository
                     .findByIdAndStatus(request.categoriaId(), StatusCategoria.ATIVA)
-                    .orElseThrow(IllegalArgumentException::new)
+                    .orElseThrow(()->new NoSuchElementException("Categoria não encontrada"))
             );
         }
 
@@ -49,17 +50,23 @@ public class TarefaService implements InnerResourceValidation<Usuario, Tarefa> {
         this.tarefaRepository.save(tarefa);
     }
 
-    public List<TarefaResponse> findAll(Usuario usuario) {
-        return this.tarefaMapper.toDTOList(this.tarefaRepository.findAllByUsuario(usuario));
+    public List<TarefaResponse> findAll(Usuario usuario, TarefaQueryFilter queryFilter) {
+        // Passando o usuario para a specification
+        queryFilter.setUsuario(usuario);
+        return this.tarefaMapper.toDTOList(this.tarefaRepository.findAll(queryFilter.getSpecification()));
     }
 
     public void toggleTarefa(Long idTarefa, Usuario usuario) {
         Tarefa tarefa = this.tarefaRepository.findById(idTarefa)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(()->new NoSuchElementException("Tarefa não encontrada"));
 
         this.validateInnerResource(usuario, tarefa);
 
-        tarefa.setStatus(tarefa.getStatus().equals(StatusTarefa.PENDENTE)?StatusTarefa.CONCLUIDA:StatusTarefa.PENDENTE);
+        tarefa.setStatus(
+                tarefa.getStatus().equals(StatusTarefa.PENDENTE)
+                ? StatusTarefa.CONCLUIDA
+                : StatusTarefa.PENDENTE
+        );
 
         this.tarefaRepository.save(tarefa);
     }
@@ -67,7 +74,7 @@ public class TarefaService implements InnerResourceValidation<Usuario, Tarefa> {
     public void edit(Long idTarefa, TarefaEditRequest request, Usuario usuario) {
 
         Tarefa tarefa = this.tarefaRepository.findById(idTarefa)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(()->new NoSuchElementException("Tarefa não encontrada"));
 
         this.validateInnerResource(usuario, tarefa);
 
@@ -79,7 +86,7 @@ public class TarefaService implements InnerResourceValidation<Usuario, Tarefa> {
         if(!Objects.isNull(request.categoriaId())) {
             tarefa.setCategoria(this.categoriaRepository
                     .findByIdAndStatus(request.categoriaId(), StatusCategoria.ATIVA)
-                    .orElseThrow(IllegalArgumentException::new)
+                    .orElseThrow(()->new NoSuchElementException("Categoria não encontrada"))
             );
         }
         this.tarefaRepository.save(tarefa);
@@ -87,7 +94,7 @@ public class TarefaService implements InnerResourceValidation<Usuario, Tarefa> {
 
     public void delete(Long idTarefa, Usuario usuario) {
         Tarefa tarefa = this.tarefaRepository.findById(idTarefa)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(()->new NoSuchElementException("Tarefa não encontrada"));
 
         validateInnerResource(usuario, tarefa);
 
@@ -99,7 +106,7 @@ public class TarefaService implements InnerResourceValidation<Usuario, Tarefa> {
     public void validateInnerResource(Usuario entity, Tarefa resource) {
         // Tentando trocar tarefa de outro usuário
         if(!resource.getUsuario().getId().equals(entity.getId())) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Não permitido");
         }
     }
 }
