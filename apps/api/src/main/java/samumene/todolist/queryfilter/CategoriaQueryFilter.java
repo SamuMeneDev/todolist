@@ -1,6 +1,7 @@
 package samumene.todolist.queryfilter;
 
 
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,6 +24,7 @@ public class CategoriaQueryFilter {
     /**
      * Referência do usuário autenticado, para busca de categorias deste usuário
      */
+    @Parameter(hidden = true)
     private Usuario usuario;
     /**
      * Metodo traz um objeto de uma só specifications com todos os filtros aplicados.
