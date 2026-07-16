@@ -1,5 +1,7 @@
 package samumene.todolist.config;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.security.autoconfigure.web.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +25,7 @@ import samumene.todolist.security.SecurityFilter;
  */
 @Configuration
 @EnableWebSecurity
+@SecurityScheme(name = SecurityConfig.SECURITY, type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
 public class SecurityConfig {
     // Dependencias
     private final SecurityFilter securityFilter;
@@ -33,6 +36,11 @@ public class SecurityConfig {
         this.securityFilter = securityFilter;
         this.resolver = resolver;
     }
+    /**
+     * Atributo usado para destacar autorizações no Swagger.
+     */
+    public static final String SECURITY = "bearerAuth";
+
     // Métodos
     /**
      * Metodo que configura as permissões e comportamento das requisições.
@@ -45,10 +53,11 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         // ROTAS PÚBLICAS
-
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuario/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
+
                         .anyRequest().authenticated()
 
                 )
