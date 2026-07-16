@@ -1,59 +1,41 @@
 package samumene.todolist.config;
 
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.HashSet;
-import java.util.List;
 
 /**
  * Configurações de exibição da documentação da API, usando o Swagger OpenAPI.
  */
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
     /**
-     * Dados de contato do criador do sistema.
-     */
-    private Contact contact() {
-        return new Contact(
-            "Samuel Isidro",
-            "https://github.com/SamuMeneDev",
-            "samuelsantiago2222@gmail.com"
-        );
-    }
-    /**
-     * Dados da API.
-     */
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-            .description("API de TODO List construido com Spring Boot para desenvolver projeto prático de API REST com Java")
-            .title("TODO List API")
-            .version("1.0.0")
-            .contact(this.contact())
-            .build();
-    }
-    /**
-     * Detalhes de requisição e caminhos para exibição da
-     * documentação da API.
+     * Define o pacote dos controllers e o grupo da API.
      */
     @Bean
-    public Docket detalheApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("samumene.todolist.controller"))
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo(this.apiInfo())
-                .consumes(new HashSet<>(List.of("application/json")))
-                .produces(new HashSet<>(List.of("application/json")));
+    public GroupedOpenApi publicApi() {
+        return GroupedOpenApi.builder()
+                .group("todolist-public")
+                .packagesToScan("samumene.todolist.controller")
+                .build();
+    }
+    /**
+     * Dados de metadados e contato do criador da API.
+     */
+    @Bean
+    public OpenAPI todoListOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("TODO List API")
+                        .description("API de TODO List construído com Spring Boot para desenvolver projeto prático de API REST com Java")
+                        .version("1.0.0")
+                        .contact(new Contact()
+                                .name("Samuel Isidro")
+                                .url("https://github.com/SamuMeneDev")
+                                .email("samuelsantiago2222@gmail.com")));
     }
 }
