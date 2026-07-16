@@ -1,5 +1,7 @@
 package samumene.todolist.controller;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -31,7 +33,6 @@ public class TarefaController {
     public TarefaController(TarefaService tarefaService) {
         this.tarefaService = tarefaService;
     }
-
     // Métodos (Endpoints)
     /**
      * Salva uma nova tarefa para o usuário.
@@ -40,6 +41,11 @@ public class TarefaController {
      * @param usuario Referência do usuaário autenticado.
      */
     @PostMapping("/save")
+    @ApiResponses({
+            @ApiResponse(useReturnTypeSchema = true, responseCode = "201"),
+            @ApiResponse(description = "Erro de requisição.", responseCode = "400"),
+            @ApiResponse(description = "Erro de falta de crendenciais.", responseCode = "403"),
+    })
     public ResponseEntity<Void> save(
             @RequestBody @Valid TarefaSaveRequest request,
             @AuthenticationPrincipal Usuario usuario
@@ -54,6 +60,10 @@ public class TarefaController {
      * @return Lista de todas as tarefas do usuario
      */
     @GetMapping("/findAll")
+    @ApiResponses({
+            @ApiResponse(useReturnTypeSchema = true, responseCode = "200"),
+            @ApiResponse(description = "Não autorizado.", responseCode = "403"),
+    })
     public ResponseEntity<List<TarefaResponse>> findAll(
             @AuthenticationPrincipal Usuario usuario,
             @ParameterObject TarefaQueryFilter queryFilter
@@ -68,6 +78,11 @@ public class TarefaController {
      * @param usuario Referêcia do usuário autenticado.
      */
     @PatchMapping("/toggle/{id}")
+    @ApiResponses({
+            @ApiResponse(useReturnTypeSchema = true, responseCode = "204"),
+            @ApiResponse(description = "Erro de requisição.", responseCode = "400"),
+            @ApiResponse(description = "Erro de falta de crendenciais.", responseCode = "403"),
+    })
     public ResponseEntity<Void> changeStatus(
             @PathVariable Long id,
             @AuthenticationPrincipal Usuario usuario
@@ -82,6 +97,11 @@ public class TarefaController {
      * @param usuario Referência do usuaário autenticado.
      */
     @DeleteMapping("/{id}")
+    @ApiResponses({
+            @ApiResponse(useReturnTypeSchema = true, responseCode = "204"),
+            @ApiResponse(description = "Erro de falta de crendenciais.", responseCode = "403"),
+            @ApiResponse(description = "Tarefa não encontrada.", responseCode = "404"),
+    })
     public ResponseEntity<Void> delete(
             @PathVariable Long id,
             @AuthenticationPrincipal Usuario usuario
@@ -97,6 +117,12 @@ public class TarefaController {
      * @param usuario Referência do usuário autenticado.
      */
     @PutMapping("/{id}")
+    @ApiResponses({
+            @ApiResponse(useReturnTypeSchema = true, responseCode = "204"),
+            @ApiResponse(description = "Erro de requisição.", responseCode = "400"),
+            @ApiResponse(description = "Erro de falta de crendenciais.", responseCode = "403"),
+            @ApiResponse(description = "Tarefa não encontrada.", responseCode = "404"),
+    })
     public ResponseEntity<Void> edit(
             @PathVariable Long id,
             @RequestBody @Valid TarefaEditRequest request,

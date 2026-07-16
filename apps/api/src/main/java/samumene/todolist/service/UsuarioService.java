@@ -51,7 +51,7 @@ public class UsuarioService implements UserDetailsService {
      */
     public UsuarioResponse findById(Long id) {
         Usuario usuario = this.usuarioRepository.findById(id)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(()->new NoSuchElementException("Usuário não encontrado"));
         return this.usuarioMapper.toDTO(usuario);
     }
     /**

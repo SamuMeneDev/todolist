@@ -13,7 +13,6 @@ import samumene.todolist.config.SecurityConfig;
 import samumene.todolist.dto.request.usuario.UsuarioLoginRequest;
 import samumene.todolist.dto.request.usuario.UsuarioRegisterRequest;
 import samumene.todolist.dto.response.TokenResponse;
-import samumene.todolist.dto.response.UsuarioResponse;
 import samumene.todolist.service.UsuarioService;
 
 @RestController
@@ -32,17 +31,6 @@ public class UsuarioController {
 
     // Métodos (Endpoints)
     /**
-     * Busca os dados de um usuário.
-     *
-     * @param id Id do usuário.
-     * @return Retorna o objeto do usuario com o respectivo Id.
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponse> findById(@PathVariable Long id) {
-        UsuarioResponse usuario = this.usuarioService.findById(id);
-        return ResponseEntity.ok(usuario);
-    }
-    /**
      * Endpoint para cadastro de um novo usuário.
      *
      * @param request Objeto de requisição.
@@ -51,7 +39,8 @@ public class UsuarioController {
     @PostMapping("/register")
     @ApiResponses({
             @ApiResponse(useReturnTypeSchema = true, responseCode = "201"),
-            @ApiResponse(description = "A senha deve ter no mínimo 6 caracteres", responseCode = "400")
+            @ApiResponse(description = "Erro de requisição.", responseCode = "400"),
+            @ApiResponse(description = "Erro de falta de crendenciais.", responseCode = "403"),
     })
     public ResponseEntity<Void> register(@Valid @RequestBody UsuarioRegisterRequest request) {
         this.usuarioService.register(request);
@@ -64,6 +53,12 @@ public class UsuarioController {
      * @return Token do usuario.
      */
     @PostMapping("/login")
+    @ApiResponses({
+            @ApiResponse(useReturnTypeSchema = true, responseCode = "200"),
+            @ApiResponse(description = "Erro de requisição.", responseCode = "400"),
+            @ApiResponse(description = "Usuário não encontrado.", responseCode = "404"),
+            @ApiResponse(description = "Erro de falta de crendenciais.", responseCode = "403"),
+    })
     public ResponseEntity<TokenResponse> login(@RequestBody @Valid UsuarioLoginRequest request) {
         TokenResponse token = this.usuarioService.login(request);
         return new ResponseEntity<>(token, HttpStatus.OK);

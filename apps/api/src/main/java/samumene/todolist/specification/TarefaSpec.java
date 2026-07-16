@@ -42,11 +42,12 @@ public class TarefaSpec {
      */
     public static Specification<Tarefa> statusEquals(String status) {
         return (root, query, criteriaBuilder) -> {
-            if(ObjectUtils.isEmpty(status)) {
-                return null;
-            } else {
-                return criteriaBuilder.equal(root.get("status"), StatusTarefa.valueOf(status));
+            for (StatusTarefa s : StatusTarefa.values()) {
+                if(s.name().equals(status)) {
+                    return criteriaBuilder.equal(root.get("status"), StatusTarefa.valueOf(status));
+                }
             }
+            return null;
         };
     }
     /**

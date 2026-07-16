@@ -1,6 +1,8 @@
 package samumene.todolist.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -41,6 +43,11 @@ public class CategoriaController {
      * @param usuario Referência do usuario autenticado
      */
     @PostMapping("/save")
+    @ApiResponses({
+            @ApiResponse(useReturnTypeSchema = true, responseCode = "201"),
+            @ApiResponse(description = "Erro de requisição.", responseCode = "400"),
+            @ApiResponse(description = "Erro de falta de crendenciais.", responseCode = "403"),
+    })
     public ResponseEntity<Void> save(
             @RequestBody @Valid CategoriaSaveRequest request,
             @AuthenticationPrincipal Usuario usuario
@@ -48,7 +55,6 @@ public class CategoriaController {
         this.categoriaService.save(request, usuario);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
     /**
      * Busca todas as categorias do usuário.
      *
@@ -56,6 +62,10 @@ public class CategoriaController {
      * @return Lista de Categorias.
      */
     @GetMapping("/findAll")
+    @ApiResponses({
+            @ApiResponse(useReturnTypeSchema = true, responseCode = "200"),
+            @ApiResponse(description = "Erro de falta de crendenciais.", responseCode = "403"),
+    })
     public ResponseEntity<List<CategoriaResponse>> findAll(
             @AuthenticationPrincipal Usuario usuario,
             @ParameterObject CategoriaQueryFilter queryFilter
@@ -71,6 +81,12 @@ public class CategoriaController {
      * @param usuario Referência do usuário autenticado.
      */
     @PatchMapping("/status/{id}")
+    @ApiResponses({
+            @ApiResponse(useReturnTypeSchema = true, responseCode = "204"),
+            @ApiResponse(description = "Erro de requisição.", responseCode = "400"),
+            @ApiResponse(description = "Erro de falta de crendenciais.", responseCode = "403"),
+            @ApiResponse(description = "Categoria não encontrada.", responseCode = "404"),
+    })
     public ResponseEntity<Void> changeStatus(
             @PathVariable Long id,
             @RequestBody @Valid CategoriaChangeStatusRequest request,
@@ -87,6 +103,12 @@ public class CategoriaController {
      * @param usuario Referência do usuário autenticado.
      */
     @PutMapping("/{id}")
+    @ApiResponses({
+            @ApiResponse(useReturnTypeSchema = true, responseCode = "204"),
+            @ApiResponse(description = "Erro de requisição.", responseCode = "400"),
+            @ApiResponse(description = "Erro de falta de crendenciais.", responseCode = "403"),
+            @ApiResponse(description = "Categoria não encontrada.", responseCode = "404"),
+    })
     public ResponseEntity<Void> edit(
             @PathVariable Long id,
             @RequestBody @Valid CategoriaEditRequest request,
@@ -103,6 +125,11 @@ public class CategoriaController {
      * @param usuario Referência do usuário autenticado.
      */
     @DeleteMapping("/{id}")
+    @ApiResponses({
+            @ApiResponse(useReturnTypeSchema = true, responseCode = "204"),
+            @ApiResponse(description = "Erro de falta de crendenciais.", responseCode = "403"),
+            @ApiResponse(description = "Tarefa não encontrada.", responseCode = "404"),
+    })
     public ResponseEntity<Void> deleteById(
         @PathVariable  Long id,
         @AuthenticationPrincipal Usuario usuario
