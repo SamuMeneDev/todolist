@@ -15,10 +15,11 @@ import samumene.todolist.repository.CategoriaRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+
+/**
+ * Classe de serviço que impõe regras de negócio relacionadas à {@link Categoria}
+ */
 @Service
-///
-/// Classe que impõe regras de negócio relacionadas à {@link Categoria}
-///
 public class CategoriaService implements InnerResourceValidation<Usuario, Categoria> {
     // Dependências
     private final CategoriaRepository categoriaRepository;
@@ -74,13 +75,12 @@ public class CategoriaService implements InnerResourceValidation<Usuario, Catego
         categoria.setStatus(StatusCategoria.valueOf(request.status()));
         this.categoriaRepository.save(categoria);
     }
-
     /**
-     * Edita os dados de uma categoria.
+     * Edita os dados de uma categoria de um usuário.
      *
-     * @param idCategoria
-     * @param request
-     * @param usuario
+     * @param idCategoria Id da categoria.
+     * @param request Objeto de requisição.
+     * @param usuario Referência do usuário autenticado.
      */
     public void edit(Long idCategoria, CategoriaEditRequest request, Usuario usuario) {
         Categoria categoria = this.categoriaRepository.findByIdAndStatus(idCategoria, StatusCategoria.ATIVA)
@@ -94,17 +94,23 @@ public class CategoriaService implements InnerResourceValidation<Usuario, Catego
 
         this.categoriaRepository.save(categoria);
     }
-
-    public void deleteById(Long id, Usuario usuario) {
-        Categoria categoria = this.categoriaRepository.findById(id)
-                .orElseThrow(()-> new NoSuchElementException("Categoria não encontrada"));
+    /**
+     * Deleta uma categoria de um usuário.
+     *
+     * @param idCategoria Id da categoria.
+     * @param usuario Referência do usuário autenticado.
+     */
+    public void deleteById(Long idCategoria, Usuario usuario) {
+        Categoria categoria = this.categoriaRepository.findById(idCategoria)
+            .orElseThrow(()-> new NoSuchElementException("Categoria não encontrada"));
 
         // Tentando deletar categoria de outros usuário
         this.validateInnerResource(usuario, categoria);
 
-        this.categoriaRepository.deleteById(id);
+        this.categoriaRepository.deleteById(idCategoria);
     }
 
+    // Implementações
     @Override
     public void validateInnerResource(Usuario entity, Categoria resource) {
         if(!resource.getUsuario().getId().equals(entity.getId())) {

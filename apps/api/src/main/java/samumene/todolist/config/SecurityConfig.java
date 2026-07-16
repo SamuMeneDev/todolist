@@ -18,17 +18,25 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import samumene.todolist.security.SecurityFilter;
 
+/**
+ * Classe de configuração de segurança e autorização da API
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    // Dependencias
     private final SecurityFilter securityFilter;
     private final HandlerExceptionResolver resolver;
 
+    // Injeção de dependência
     public SecurityConfig(SecurityFilter securityFilter, @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
         this.securityFilter = securityFilter;
         this.resolver = resolver;
     }
-
+    // Métodos
+    /**
+     * Metodo que configura as permissões e comportamento das requisições.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -55,7 +63,9 @@ public class SecurityConfig {
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
+    /**
+     * Bean que aponta para a estratégia de criptografia das senhas.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

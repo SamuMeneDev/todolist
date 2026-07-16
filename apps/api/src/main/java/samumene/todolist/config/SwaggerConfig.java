@@ -14,9 +14,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Configurações de exibição da documentação da API, usando o Swagger OpenAPI.
+ */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+    /**
+     * Dados de contato do criador do sistema.
+     */
     private Contact contact() {
         return new Contact(
             "Samuel Isidro",
@@ -24,7 +30,9 @@ public class SwaggerConfig {
             "samuelsantiago2222@gmail.com"
         );
     }
-
+    /**
+     * Dados da API.
+     */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
             .description("API de TODO List construido com Spring Boot para desenvolver projeto prático de API REST com Java")
@@ -33,8 +41,10 @@ public class SwaggerConfig {
             .contact(this.contact())
             .build();
     }
-
-
+    /**
+     * Detalhes de requisição e caminhos para exibição da
+     * documentação da API.
+     */
     @Bean
     public Docket detalheApi() {
         return new Docket(DocumentationType.SWAGGER_2)

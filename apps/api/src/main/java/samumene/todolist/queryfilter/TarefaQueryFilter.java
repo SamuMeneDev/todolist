@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 
 import static samumene.todolist.specification.TarefaSpec.*;
 
-///
-/// Filtros de busca e especificações para a busca com findAll de Tarefas.
-///
+/**
+ * Filtros de busca e especificações para a busca com findAll de Tarefas.
+ */
 @Getter @Setter
 public class TarefaQueryFilter {
     /**
@@ -25,25 +25,15 @@ public class TarefaQueryFilter {
      */
     private String status;
     /**
-     * Período inicial de busca do início de uma tarefa.
+     * Período de busca pelo início de uma tarefa.
      */
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime dataInicioStart;
+    private LocalDateTime dataInicio;
     /**
-     *  Período de termino de busca do início de uma tarefa.
+     * Período de busca pelo fim de uma tarefa.
      */
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime dataInicioEnds;
-    /**
-     * Período inicial de busca do fim de uma tarefa.
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime dataFimStart;
-    /**
-     * Período de termino de busca do fim de uma tarefa.
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime dataFimEnds;
+    private LocalDateTime dataFim;
     /**
      * Referência do usuário autenticado, usado para buscar suas tarefas.
      */
@@ -57,10 +47,7 @@ public class TarefaQueryFilter {
         return usuarioEquals(usuario)
             .and(categoriaEquals(categoria))
             .and(statusEquals(status))
-            .and(dataInicioStarts(dataInicioStart))
-            .and(dataInicioEnds(dataInicioEnds))
-            .and(dataFimStarts(dataFimStart))
-            .and(dataFimEnds(dataFimEnds));
-
+            .and(dataInicio(dataInicio))
+            .and(dataFim(dataFim));
     }
 }
