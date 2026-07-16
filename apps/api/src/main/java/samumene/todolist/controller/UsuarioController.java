@@ -1,6 +1,8 @@
 package samumene.todolist.controller;
 
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -45,7 +47,12 @@ public class UsuarioController {
      *
      * @param request Objeto de requisição.
      */
+
     @PostMapping("/register")
+    @ApiResponses({
+            @ApiResponse(useReturnTypeSchema = true, responseCode = "201"),
+            @ApiResponse(description = "A senha deve ter no mínimo 6 caracteres", responseCode = "400")
+    })
     public ResponseEntity<Void> register(@Valid @RequestBody UsuarioRegisterRequest request) {
         this.usuarioService.register(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
