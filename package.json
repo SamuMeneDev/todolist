@@ -1,0 +1,12 @@
+{
+    "name": "todolist",
+    "private": "true",
+    "version": "1.0.0",
+    "description": "Sistema de gerenciamento de tarefas",
+    "workspaces":[
+        "apps/*"
+    ],
+    "scripts": {
+        "web": "yarn workspace todolist-web ng serve"
+    }
+}
