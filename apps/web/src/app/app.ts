@@ -1,13 +1,18 @@
-import { TuiRoot } from '@taiga-ui/core';
 import { Component, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TuiRoot],
+  imports: [RouterOutlet, MatButtonModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('todolist-web');
+
+  olaFn() {
+    console.log("Olá mundo!");
+  }
+
 }
