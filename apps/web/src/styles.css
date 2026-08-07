@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-light: #FFFFFF;
+  --primary-light-foreground: #201F1F;
+  --primary-light-foreground: #6C6C6C;
+
+  --teriary-300: #6A7DC1;
+  --teriary-400: #455BA9;
+  --teriary-500: #2B449E;
+  --teriary-600: #182F82;
+  --teriary-700: #0C1F67;
+  --teriary-foreground: #FFFFFF;
+
+}

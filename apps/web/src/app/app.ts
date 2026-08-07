@@ -4,15 +4,10 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatButtonModule],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('todolist-web');
-
-  olaFn() {
-    console.log("Olá mundo!");
-  }
-
+  protected readonly title = signal('TODO List');
 }
