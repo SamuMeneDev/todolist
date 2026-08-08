@@ -1,1 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --primary: #FFFFFF;
+  --primary-foreground: #201F1F;
+  --secondary-foreground: #6C6C6C;
+
+  --teriary-300: #6A7DC1;
+  --teriary-400: #455BA9;
+  --teriary-500: #2B449E;
+  --teriary-600: #182F82;
+  --teriary-700: #0C1F67;
+  --teriary-foreground: #FFFFFF;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: #FFFFFF;
+  }
+}
+
+.headline {
+  font-size: 1.5rem;
+  color: var(--primary-foreground);
+  font-weight: 500;
+}
+
+
+

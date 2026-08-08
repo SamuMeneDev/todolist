@@ -1,0 +1,27 @@
+<app-navbar />
+<main>
+  <div class="form">
+    <div class="form-title">
+      <h2 class="headline">Login</h2>
+      <p>Entre com sua conta para gerenciar suas tarefas</p>
+    </div>
+    <div class="form-fields">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Email</mat-label>
+        <input placeholder="Digite seu email" matInput type="text">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Senha</mat-label>
+        <input placeholder="Digite sua senha" matInput type="text">
+      </mat-form-field>
+      <div class="form-actions">
+        <button matButton="filled">Logar</button>
+        <span id="ou">ou</span>
+        <button matButton>Criar conta</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<router-outlet />
