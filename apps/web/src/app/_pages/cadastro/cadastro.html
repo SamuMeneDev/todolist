@@ -7,6 +7,10 @@
     </div>
     <div class="form-fields">
       <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Nome</mat-label>
+        <input placeholder="Digite seu nome" matInput type="text">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
         <mat-label>Email</mat-label>
         <input placeholder="Digite seu email" matInput type="text">
       </mat-form-field>
@@ -14,14 +18,15 @@
         <mat-label>Senha</mat-label>
         <input placeholder="Digite sua senha" matInput type="text">
       </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <input placeholder="Confirme sua senha" matInput type="text">
+      </mat-form-field>
       <div class="form-actions">
-        <button matButton="filled">Logar</button>
+        <button matButton="filled">Criar conta</button>
         <span id="ou">ou</span>
-        <a routerLink="/cadastro" matButton>Criar conta</a>
+        <a routerLink="/login" matButton>Fazer login</a>
       </div>
     </div>
   </div>
 </main>
-
-
 <router-outlet />
