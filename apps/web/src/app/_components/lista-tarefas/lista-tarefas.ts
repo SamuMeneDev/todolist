@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { MatListModule } from '@angular/material/list';
 
+/**
+ * Componente que renderiza uma lista de tarefas do usuário.
+ */
 @Component({
   selector: 'app-lista-tarefas',
-  imports: [MatListModule],
+  imports: [],
   templateUrl: './lista-tarefas.html',
   styleUrl: './lista-tarefas.css',
 })

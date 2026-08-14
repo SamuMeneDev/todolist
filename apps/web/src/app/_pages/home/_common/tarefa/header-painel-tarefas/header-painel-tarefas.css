@@ -1,0 +1,19 @@
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.pesquisa {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  & .pesquisa-input {
+    width: 75%;
+  }
+  & .pesquisa-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+}

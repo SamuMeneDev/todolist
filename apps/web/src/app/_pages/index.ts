@@ -1,3 +1,3 @@
 export * from "./login/login";
-export * from "./tarefas/tarefas";
+export * from "./home/home"
 export * from "./cadastro/cadastro";
