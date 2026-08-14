@@ -1,1 +1,32 @@
-<p>tarefas works!</p>
+<app-navbar />
+<main>
+  <span>Tarefas</span>
+  <div class="pesquisa">
+    <mat-form-field appearance="outline">
+    <button matIconButton matPrefix>
+      <mat-icon fontIcon="search"></mat-icon>
+    </button>
+    <input matInput placeholder="Pesquisar tarefa" >
+    </mat-form-field>
+    <button matButton="filled">
+      Filtrar
+      <mat-icon fontIcon="tune"></mat-icon>
+    </button>
+    <button matMiniFab>
+      <mat-icon fontIcon="add"></mat-icon>
+    </button>
+  </div>
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="Pendentes">
+      <p>Teste</p>
+      <app-lista-tarefas>
+        <app-tarefa />
+        <app-tarefa />
+      </app-lista-tarefas>
+    </mat-tab>
+    <mat-tab label="Concluídas">
+      <p>Teste 2</p>
+    </mat-tab>
+  </mat-tab-group>
+</main>
+<router-outlet />
