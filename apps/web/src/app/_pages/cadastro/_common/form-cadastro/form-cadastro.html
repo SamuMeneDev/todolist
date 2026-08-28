@@ -1,4 +1,4 @@
-<div class="form">
+<form class="form" [formGroup]="form">
     <div class="form-title">
       <h2 class="headline">Login</h2>
       <p>Entre com sua conta para gerenciar suas tarefas</p>
@@ -6,23 +6,29 @@
     <div class="form-fields">
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Nome</mat-label>
-        <input placeholder="Digite seu nome" matInput type="text">
+        <input formControlName="nome" placeholder="Digite seu nome" matInput type="text">
+        @if (obterMensagemErro("nome")) {
+          <mat-error>{{obterMensagemErro("nome")}}</mat-error>
+        }
       </mat-form-field>
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Email</mat-label>
-        <input placeholder="Digite seu email" matInput type="text">
+        <input formControlName="email" placeholder="Digite seu email" matInput type="text">
+        @if (obterMensagemErro("email")) {
+          <mat-error>{{obterMensagemErro("email")}}</mat-error>
+        }
       </mat-form-field>
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Senha</mat-label>
-        <input placeholder="Digite sua senha" matInput type="text">
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="form-field">
-        <input placeholder="Confirme sua senha" matInput type="text">
+        <input formControlName="senha" placeholder="Digite sua senha" matInput type="text">
+        @if (obterMensagemErro("senha")) {
+          <mat-error>{{obterMensagemErro("senha")}}</mat-error>
+        }
       </mat-form-field>
       <div class="form-actions">
-        <button matButton="filled">Criar conta</button>
+        <button matButton="filled" (click)="submit()">Criar conta</button>
         <span id="ou">ou</span>
         <a routerLink="/login" matButton>Fazer login</a>
       </div>
     </div>
-  </div>
+  </form>
