@@ -2,6 +2,13 @@
 
 Todas as mudanças entre versões serão documentas aqui.
 
+## [1.1.0] - ??
+
+### Adicionado
+- Login no sistema web.
+- Cadastro de nova conta.
+
+
 ## [1.0.0] - 2026-07-16
 
 ### Adicionado
