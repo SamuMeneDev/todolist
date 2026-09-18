@@ -1,5 +1,5 @@
 # TODO List
-<strong>Versão 1.0.0</strong>
+<strong>Versão 1.1.0</strong>
 
 Projeto prático desenvolvido em um bootcamp fullstack da DIO com o Santander
 

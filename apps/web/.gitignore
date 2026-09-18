@@ -42,3 +42,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Bloquear o arquivo com dados de produção/sensíveis
+src/environments/environment.ts

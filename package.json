@@ -7,6 +7,10 @@
         "apps/*"
     ],
     "scripts": {
+        "api:dev": "dotenv -- yarn workspace todolist-api dev",
         "web": "yarn workspace todolist-web ng serve"
+    },
+    "devDependencies": {
+        "dotenv-cli": "^11.0.0"
     }
 }
